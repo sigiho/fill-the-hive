@@ -105,17 +105,39 @@ small,.sm{font-family:var(--f9);font-size:11px;line-height:1.6}
 .post .h{display:flex;gap:10px;align-items:center;font-weight:700}
 .post p{margin:10px 0 0;line-height:1.7;font-size:15px}
 /* music */
-.track{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:2px solid var(--k);width:100%;text-align:left;background:var(--y)}
+.track{display:flex;align-items:stretch;border-bottom:2px solid var(--k);background:var(--y);touch-action:pan-y}
+.track .tp{flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:9px 4px 9px 14px;text-align:left}
 .track .no{width:24px;font-size:12px}
 .track .tt{flex:1;min-width:0}
-.track .tt b{display:block;font-size:15px}
+.track .tt b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track .grip{flex:none;width:48px;display:grid;place-items:center;cursor:grab;touch-action:none}
 .track.on{background:var(--k);color:var(--y)}
+.track.drag{position:absolute;left:0;right:0;z-index:5;background:var(--w);color:var(--k);box-shadow:0 4px 0 var(--k);border-top:2px solid var(--k)}
+.track.ph{background:repeating-linear-gradient(45deg,var(--k) 0 2px,transparent 2px 8px);opacity:.35}
+.scr.music.self .track:nth-child(-n+4) .fl{background:var(--k);color:var(--y);padding:0 2px}
+.scr.music.self .track.on:nth-child(-n+4) .fl{background:var(--y);color:var(--k)}
+.pl-h{flex:none;display:flex;justify-content:space-between;align-items:flex-end;gap:8px;padding:12px 14px;border-bottom:2px solid var(--k);background:var(--w)}
+.pl-h>div{display:flex;flex-direction:column;gap:2px}.pl-h b{font-size:20px;font-weight:400}.pl-h small{font-size:11px;display:inline-flex;gap:4px;align-items:center}
+.pl-tip{white-space:nowrap}
+#tl{position:relative}
+.player{flex:none;background:var(--k);color:var(--y);padding:0 14px 6px}
+.pbar{height:6px;background:#333;margin:0 -14px}.pbar i{display:block;height:100%;background:var(--y);width:0}
+.prow{display:flex;align-items:center;gap:12px;padding:10px 0 4px}
+.art{width:44px;height:44px;flex:none;display:grid;place-items:center;border:2px solid var(--y)}
+.pm{flex:1;min-width:0}.pm b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pm small{color:var(--w)}
+.ptime{font-size:11px;color:var(--w);white-space:nowrap}
+.pctl{display:flex;justify-content:center;align-items:center;gap:28px;padding:2px 0 4px}
+.pctl button{width:48px;height:48px;display:grid;place-items:center;color:var(--y)}
+.pctl .pp{width:58px;height:58px;background:var(--y);color:var(--k);clip-path:polygon(6px 0,calc(100% - 6px) 0,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0 calc(100% - 6px),0 6px)}
+.pctl button:active{transform:translate(1px,1px)}
+.pl-r{display:flex;align-items:center;gap:10px}.pl-hint{width:32px;height:32px;border:2px solid var(--k);background:var(--y);font-weight:700;box-shadow:2px 2px 0 var(--k)}
 .eq{display:flex;gap:2px;align-items:flex-end;height:16px}
 .eq i{width:4px;background:currentColor;animation:eq .8s steps(3) infinite}
 .eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}
 @keyframes eq{0%{height:4px}50%{height:16px}100%{height:8px}}
 /* camera */
 .cam{background:var(--k);color:var(--y)}
+.cam .btn{color:var(--k);background:var(--w)}
 .cam canvas{width:100%;flex:1;min-height:0;object-fit:cover;image-rendering:pixelated;display:block}
 .cam .cap{text-align:center;font-weight:700;font-size:18px;padding:12px;min-height:48px}
 .shutter{width:76px;height:76px;border:6px solid var(--y);background:var(--k);margin:0 auto 12px;display:block}
@@ -189,6 +211,7 @@ let S;try{S=Object.assign({},D,JSON.parse(localStorage.getItem(KEY)||'{}'));}cat
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
 const clues=()=>[S.ticket,S.wv,S.music,S.invite].filter(Boolean).length;
 /* ── 사운드 (8비트 비프) ── */
+const later=f=>requestAnimationFrame(()=>setTimeout(f,0));
 let AC=null;function tone(f=660,d=.06,v=.03){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d);}catch(e){}}
 const SFX={tap:()=>tone(880,.03,.02),ok:()=>{tone(660,.06);setTimeout(()=>tone(990,.08),70)},no:()=>tone(160,.12,.04),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.1),i*90))};
 /* ── 토스트 · 시계 ── */
@@ -210,12 +233,11 @@ const TRACKS=[['Supernova','aespa'],['Let Me In (20 CUBE)','ENHYPEN'],['FANCY','
 const PHOTOS=[['ticket','2017.02.18','첫 공연 티켓'],['crowd','2017.02.18','고척, 그 겨울'],['crowd2','2021','어느 공연장'],['duo','2022','도하랑'],['tokyo','2024','도쿄, 미오랑'],['bench','11.02 23:38','마지막 사진']];
 /* ── 라우터 ── */
 const stack=[];let cur=null;
-function go(name,arg,push=true){if(cur&&cur.leave)cur.leave();if(push&&cur)stack.push(cur.key);const v=$('#view');const sc=SCREENS[name](arg);cur=Object.assign({key:[name,arg]},sc);v.innerHTML=`<div class="scr ${sc.cls||''}">${sc.html}</div>`;if(cur.mount)cur.mount(v.firstChild);$('#hintbtn').hidden=!!sc.nohint;closeSheet();}
+function go(name,arg,push=true){if(cur&&cur.leave)cur.leave();if(push&&cur)stack.push(cur.key);const v=$('#view');const sc=SCREENS[name](arg);cur=Object.assign({key:[name,arg]},sc);v.innerHTML=`<div class="scr ${sc.cls||''}">${sc.html}</div>`;if(cur.mount)cur.mount(v.firstChild);$('#hintbtn').hidden=!!sc.nohint;$('#app').classList.toggle('pl',!!sc.player);closeSheet();}
 function back(){const k=stack.pop();if(k)go(k[0],k[1],false);else go('home',null,false);}
 const head=(t,ic)=>`<div class="ah"><button class="back" data-act="back" aria-label="뒤로">${icon('back',18)}</button>${ic?icon(ic,20):''}<span class="t">${t}</span></div>`;
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const [a,v]=b.dataset.act.split(':');SFX.tap();ACT[a]&&ACT[a](v,b);});
-const ACT={back:()=>back(),home:()=>{stack.length=0;go('home',null,false)},open:v=>go(v),chat:v=>go('chat',v),photo:v=>go('photo',+v),comm:v=>go('comm',v),
- play:(v,b)=>{$$('.track').forEach(t=>{t.classList.remove('on');t.querySelector('.st').innerHTML=''});b.classList.add('on');b.querySelector('.st').innerHTML='<span class="eq"><i></i><i></i><i></i></span>';}};
+const ACT={back:()=>back(),home:()=>{stack.length=0;go('home',null,false)},open:v=>go(v),chat:v=>go('chat',v),photo:v=>go('photo',+v),comm:v=>go('comm',v)};
 /* ── 화면 ── */
 const SCREENS={};
 SCREENS.lock=()=>({cls:'lock dots',nohint:true,html:`<div class="date" id="ld"></div><div class="time" id="lt">23:41</div>
@@ -251,7 +273,7 @@ SCREENS.chat=k=>{const f=FRIENDS[k];S.read[k]=true;save();return{html:`${head(f.
 SCREENS.invite=()=>{if(S.invite)return SCREENS.invited();return{html:`${head('HYBE','lock')}<div class="scroll"><div class="chat"><span class="stamp-day">11월 2일</span>
  <div class="invite" id="iv">${icon('lock',40)}<div class="big mt">초대장이 도착했습니다</div><small style="display:block;margin-top:6px">이 초대장은 H 본인만 열 수 있습니다.<br>비밀번호를 입력하세요 (영문 4자리)</small>
  <form class="pw" id="pf"><input id="pi" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text" aria-label="비밀번호"><button class="btn k" type="submit">열기</button></form><div class="err" id="pe"></div></div></div></div>`,
- mount(el){$('#pf',el).addEventListener('submit',e=>{e.preventDefault();const v=$('#pi',el).value.trim().toUpperCase();if(v==='SELF'){S.invite=true;save();SFX.win();toast('초대장이 열렸어요','H가 당신을 기다립니다','check');progNoti();go('invited',null,false);}else{SFX.no();const iv=$('#iv',el);iv.classList.remove('shake');void iv.offsetWidth;iv.classList.add('shake');$('#pe',el).textContent='비밀번호가 틀렸습니다.';}});}};};
+ mount(el){$('#pf',el).addEventListener('submit',e=>{e.preventDefault();const v=$('#pi',el).value.trim().toUpperCase();if(v==='SELF'){$('#pi',el).blur();S.invite=true;save();later(()=>{SFX.win();go('invited',null,false);toast('초대장이 열렸어요','H가 당신을 기다립니다','check');progNoti();});}else{SFX.no();const iv=$('#iv',el);iv.classList.remove('shake');void iv.offsetWidth;iv.classList.add('shake');$('#pe',el).textContent='비밀번호가 틀렸습니다.';}});}};};
 SCREENS.invited=()=>({html:`${head('HYBE · 초대장','check')}<div class="scroll"><div class="chat"><span class="stamp-day">11월 2일</span>
  <div class="invite"><canvas id="ip" width="120" height="170" class="pxc" style="height:auto;aspect-ratio:120/170;border:3px solid #000"></canvas>
  <div class="big mt">HYBE WEVERSE CON 2026</div><div class="t14" style="font-size:22px">FINDING H</div>
@@ -269,16 +291,51 @@ SCREENS.photo=i=>{const p=PHOTOS[i];if(p[0]==='ticket'&&!S.ticket){S.ticket=true
 SCREENS.weverse=()=>{if(!S.wv)return{html:`${head('위버스','hive')}<div class="scroll"><div class="post"><div class="h">${icon('lock',24)} H의 프로필은 잠겨 있어요</div><p>본인 확인 질문에 답하면 열려요.</p>
  <div class="big mt" style="font-size:18px">Q. H가 처음 간 공연 날짜는?</div><small>숫자 8자리 · 예) 20260101</small>
  <form class="pw" id="wf"><input id="wi" maxlength="8" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="날짜 8자리"><button class="btn k" type="submit">확인</button></form><div class="err" id="we"></div></div></div>`,
- mount(el){$('#wf',el).addEventListener('submit',e=>{e.preventDefault();const v=$('#wi',el).value.replace(/\D/g,'');if(v==='20170218'){S.wv=true;save();SFX.win();toast('본인 확인 완료','H는 하이브의 팬이었다','hive');progNoti();go('weverse',null,false);}else{SFX.no();$('#we',el).textContent='본인 확인에 실패했어요.';}});}};
+ mount(el){$('#wf',el).addEventListener('submit',e=>{e.preventDefault();const v=$('#wi',el).value.replace(/\D/g,'');if(v==='20170218'){$('#wi',el).blur();S.wv=true;save();later(()=>{SFX.win();go('weverse',null,false);toast('본인 확인 완료','H는 하이브의 팬이었다','hive');progNoti();});}else{SFX.no();$('#we',el).textContent='본인 확인에 실패했어요.';}});}};
  return{html:`${head('위버스 · H','hive')}<div class="scroll"><div class="post"><div class="h">${icon('H',28)} H</div><p>가입한 커뮤니티 ${COMM.length}개 · 마지막 활동 11.02</p></div>
  <div class="comm">${COMM.map(c=>`<button data-act="comm:${c.id}">${icon(c.ic,28,Y)}<span><b>${c.n}</b><small style="display:block;color:#fff">SINCE ${c.since}</small></span></button>`).join('')}</div></div>`};};
 SCREENS.comm=id=>{const c=COMM.find(x=>x.id===id);return{html:`${head(c.n+' · 커뮤니티','hive')}<div class="scroll">
  <div class="post"><div class="h">${icon('H',24)} H <small>· 11.01</small></div><p>${c.post}</p></div>
  <div class="post"><div class="h">${icon('check',20)} 함께하는 친구</div><p>${c.friend}님도 이 커뮤니티 멤버예요.</p></div>
  <small style="display:block;padding:0 14px">SINCE ${c.since}</small></div>`};};
-SCREENS.music=()=>{if(S.wv&&!S.music){S.music=true;save();progNoti();}return{html:`${head('음악 · H의 플레이리스트','note')}<div class="scroll">
- ${TRACKS.map((t,i)=>`<button class="track" data-act="play"><span class="no">${String(i+1).padStart(2,'0')}</span><span class="tt"><b>${t[0]}</b><small>${t[1]}</small></span><span class="st"></span></button>`).join('')}
- <small style="display:block;padding:12px 14px">${TRACKS.length}곡 · 셔플 재생 중</small></div>`};};
+/* ── 음악 앱: 재생목록(끌어서 순서 변경) + 하단 플레이어 ── */
+const DUR=[178,163,213,274,200,185,178,204];const SELFQ=['Spring Day','Eternally','Let Me In (20 CUBE)','FIREWORK'];
+const SVG=(d,z=24)=>`<svg width="${z}" height="${z}" viewBox="0 0 12 12" shape-rendering="crispEdges" fill="currentColor"><path d="${d}"/></svg>`;
+const PI={prev:'M2 2h2v8H2zM9 2h1v8H9zM8 3h1v6H8zM7 4h1v4H7zM6 5h1v2H6z',next:'M8 2h2v8H8zM2 2h1v8H2zM3 3h1v6H3zM4 4h1v4H4zM5 5h1v2H5z',play:'M3 1h1v10H3zM4 2h1v8H4zM5 3h1v6H5zM6 4h1v4H6zM7 5h1v2H7z',pause:'M3 2h2v8H3zM7 2h2v8H7z',grip:'M2 3h8v1H2zM2 6h8v1H2zM2 9h8v1H2z'};
+const MP={i:-1,on:false,t:0,iv:null,step:0};
+function order(){let o=S.order;if(!Array.isArray(o)||o.length!==TRACKS.length)o=TRACKS.map((_,k)=>k);return o;}
+const mmss=x=>`${Math.floor(x/60)}:${String(Math.floor(x%60)).padStart(2,'0')}`;
+function mpNotes(k){const sc=[262,294,330,392,440,523,587,659];let h=0;for(const c of TRACKS[k][0])h=(h*31+c.charCodeAt(0))>>>0;return Array.from({length:8},(_,n)=>sc[(h>>(n*3))&7]);}
+function mpTick(){if(!MP.on)return;const k=order()[MP.i];MP.t++;MP.step++;const nt=mpNotes(k);tone(nt[MP.step%8],.09,.012);if(MP.t>=DUR[k]*3){mpGo(1);return;}mpUI();}
+function mpStart(){clearInterval(MP.iv);MP.iv=setInterval(mpTick,1000/3);}
+function mpStop(){clearInterval(MP.iv);MP.iv=null;}
+function mpGo(d){const n=TRACKS.length;MP.i=MP.i<0?0:(MP.i+d+n)%n;MP.t=0;MP.on=true;mpStart();mpUI();}
+function mpUI(){const el=$('.scr.music');if(!el)return;const o=order();
+ $$('.track:not(.ph)',el).forEach((r,pos)=>{const on=pos===MP.i;r.classList.toggle('on',on);r.querySelector('.st').innerHTML=on&&MP.on?'<span class="eq"><i></i><i></i><i></i></span>':'';});
+ const k=MP.i<0?null:o[MP.i];$('#mt',el).textContent=k==null?'재생할 곡을 골라요':TRACKS[k][0];$('#ma',el).textContent=k==null?'H의 플레이리스트':TRACKS[k][1];
+ const tt=k==null?0:Math.floor(MP.t/3),dd=k==null?0:DUR[k];$('#mc',el).textContent=mmss(tt);$('#md',el).textContent=mmss(dd);
+ $('#mbf',el).style.width=(k==null?0:Math.min(100,MP.t/(DUR[k]*3)*100))+'%';$('#mpp',el).innerHTML=SVG(MP.on?PI.pause:PI.play,30);$('#mpp',el).setAttribute('aria-label',MP.on?'일시정지':'재생');}
+function selfCheck(){const o=order().slice(0,4).map(k=>TRACKS[k][0]);const ok=o.every((t,n)=>t===SELFQ[n]);const el=$('.scr.music');if(el)el.classList.toggle('self',ok);if(ok&&!S.selfseen){S.selfseen=true;save();SFX.ok();toast('H의 순서와 같아요','네 곡의 첫 글자를 읽어 보세요','note');}}
+SCREENS.music=()=>{if(S.wv&&!S.music){S.music=true;save();progNoti();}const o=order();
+ return{cls:'music',player:true,nohint:true,html:`${head('음악','note')}<div class="pl-h"><div><small>PLAYLIST</small><b class="t14">H의 플레이리스트</b><small>${TRACKS.length}곡 · 11.02 업데이트</small></div><span class="pl-r"><small class="pl-tip">${SVG(PI.grip,14)} 끌어서 순서 변경</small><button class="pl-hint" data-act="hint" aria-label="힌트">?</button></span></div>
+ <div class="scroll" id="tl">${o.map((k,pos)=>`<div class="track" data-k="${k}"><button class="tp" data-act="play:${pos}"><span class="no">${String(pos+1).padStart(2,'0')}</span><span class="tt"><b><span class="fl">${TRACKS[k][0][0]}</span>${TRACKS[k][0].slice(1)}</b><small>${TRACKS[k][1]}</small></span><span class="st"></span></button><span class="grip" aria-label="순서 바꾸기">${SVG(PI.grip,20)}</span></div>`).join('')}</div>
+ <div class="player"><div class="pbar"><i id="mbf"></i></div><div class="prow"><span class="art">${icon('note',24,Y)}</span><span class="pm"><b id="mt"></b><small id="ma"></small></span><span class="ptime"><span id="mc">0:00</span> / <span id="md">0:00</span></span></div>
+ <div class="pctl"><button data-act="mp:prev" aria-label="이전 곡">${SVG(PI.prev,26)}</button><button class="pp" id="mpp" data-act="mp:pp"></button><button data-act="mp:next" aria-label="다음 곡">${SVG(PI.next,26)}</button></div></div>`,
+ mount(el){mpUI();selfCheck();if(MP.on)mpStart();dragList($('#tl',el));},leave(){mpStop();}};};
+ACT.play=v=>{MP.i=+v;MP.t=0;MP.on=true;mpStart();mpUI();};
+ACT.mp=v=>{if(v==='pp'){if(MP.i<0){mpGo(0);return;}MP.on=!MP.on;MP.on?mpStart():mpStop();mpUI();}else mpGo(v==='next'?1:-1);};
+function dragList(list){let row=null,y0=0,h=0,from=0,ph=null;
+ list.addEventListener('pointerdown',e=>{const g=e.target.closest('.grip');if(!g)return;e.preventDefault();row=g.parentElement;const rows=[...list.children];from=rows.indexOf(row);h=row.offsetHeight;y0=e.clientY;
+  ph=document.createElement('div');ph.className='track ph';ph.style.height=h+'px';row.after(ph);const top0=row.offsetTop;row.classList.add('drag');row.style.top=top0+'px';g.setPointerCapture(e.pointerId);});
+ list.addEventListener('pointermove',e=>{if(!row)return;const dy=e.clientY-y0;row.style.transform=`translateY(${dy}px)`;
+  const mid=row.offsetTop+dy+h/2;const others=[...list.children].filter(c=>c!==row&&c!==ph);let idx=others.findIndex(c=>c.offsetTop+c.offsetHeight/2>mid);
+  const ref=idx<0?null:others[idx];if(ref!==ph.nextSibling){list.insertBefore(ph,ref);}
+  const r=list.getBoundingClientRect();if(e.clientY<r.top+30)list.scrollTop-=6;else if(e.clientY>r.bottom-30)list.scrollTop+=6;});
+ const end=()=>{if(!row)return;ph.replaceWith(row);row.classList.remove('drag');row.style.transform='';row.style.top='';
+  const playing=MP.i>=0?order()[MP.i]:null;S.order=[...list.children].map(c=>+c.dataset.k);save();
+  [...list.children].forEach((c,pos)=>{c.querySelector('.no').textContent=String(pos+1).padStart(2,'0');c.querySelector('.tp').dataset.act='play:'+pos;});
+  if(playing!=null)MP.i=S.order.indexOf(playing);row=null;SFX.tap();mpUI();selfCheck();};
+ list.addEventListener('pointerup',end);list.addEventListener('pointercancel',end);}
 /* ── 셀카 카메라 (픽셀 3톤) ── */
 const BAYER=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5].map(v=>(v+.5)/16);const PAL={k:[0,0,0],y:[245,255,0],w:[255,255,255]};
 function dither(img){const d=img.data,W=img.width,N=W*img.height,L=new Float32Array(N);for(let i=0;i<N;i++)L[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];
