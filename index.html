@@ -15,12 +15,15 @@ html,body{margin:0;height:100%;background:var(--y);color:var(--k);font-family:va
 body{display:flex;justify-content:center;overscroll-behavior:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 input{font:inherit}
-#app{position:relative;width:100%;max-width:440px;height:100dvh;min-height:100%;background:var(--y);overflow:hidden;display:flex;flex-direction:column}
+#app{position:relative;width:100%;max-width:440px;height:100dvh;min-height:100%;background:var(--y);overflow:hidden;overflow:clip;display:flex;flex-direction:column}
 @media (min-width:600px){body{align-items:center;background:var(--k)}#app{height:min(100dvh,920px);border:4px solid var(--k);box-shadow:0 0 0 4px var(--y)}}
 .dots{background-image:radial-gradient(var(--k) 1px,transparent 1.2px);background-size:16px 16px}
-.sb{flex:none;display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 6px;font-size:12px}
+.sb{flex:none;position:relative;display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 12px) 18px 8px;font-size:13px}
+.isl{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 8px);transform:translateX(-50%);width:110px;height:26px;background:var(--k);clip-path:polygon(6px 0,calc(100% - 6px) 0,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0 calc(100% - 6px),0 6px)}
+.isl::after{content:"";position:absolute;right:22px;top:10px;width:6px;height:6px;background:var(--y)}
+.isl.rec::after{animation:bl 1s steps(1) infinite}
 .sb .ic{display:flex;gap:6px;align-items:center}
-#view{flex:1;min-height:0;position:relative;overflow:hidden}
+#view{flex:1;min-height:0;position:relative;overflow:hidden;overflow:clip}
 .scr{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
 .scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .homebar{flex:none;height:calc(26px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;align-items:flex-start;padding-top:8px}
@@ -49,16 +52,22 @@ small,.sm{font-family:var(--f9);font-size:11px;line-height:1.6}
 .slide .knob{position:absolute;left:4px;top:4px;width:44px;height:44px;background:var(--k);color:var(--y);display:grid;place-items:center}
 .slide span{position:absolute;inset:0;display:grid;place-items:center;font-size:14px;pointer-events:none}
 /* home */
-.home{padding:18px 18px 0}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 8px;margin-top:8px}
+.home{flex:1;min-height:0;display:flex;flex-direction:column;padding:14px 16px 10px}
+.wid{display:flex;gap:16px;align-items:center;background:var(--k);color:var(--y);padding:18px 18px;text-align:left;width:100%;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)}
+.wid .t14{font-size:26px;line-height:1.2}
+.slots{display:flex;gap:4px;margin-top:8px}
+.slot{width:26px;height:26px;box-shadow:inset 0 0 0 3px var(--y);display:grid;place-items:center;font-size:14px;font-weight:700}
+.slot.f{background:var(--y);color:var(--k)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 6px;margin-top:22px}
 .app{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
-.app .ico{width:64px;height:64px;border:3px solid var(--k);background:var(--w);display:grid;place-items:center}
-.app.locked .ico{background:var(--y)}
-.app .lb{font-size:12px}
-.badge{position:absolute;top:-6px;right:2px;min-width:20px;height:20px;padding:0 4px;background:var(--k);color:var(--y);font-size:11px;display:grid;place-items:center}
-.widget{margin-top:26px;border:2px solid var(--k);background:var(--w);padding:14px;box-shadow:6px 6px 0 var(--k)}
-.widget .row{display:flex;justify-content:space-between;align-items:center}
-.cells{display:flex;gap:4px;margin-top:10px}
+.app .ico{width:64px;height:64px;display:grid;place-items:center;background:var(--k);color:var(--y);clip-path:polygon(8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),0 calc(100% - 8px),0 8px,4px 8px,4px 4px,8px 4px)}
+.app.locked .ico{background:var(--k);color:#6b6f00}
+.app .lb{font-size:13px;padding:0 3px;background:var(--y)}
+.badge{position:absolute;top:-6px;right:4px;min-width:20px;height:20px;padding:0 4px;background:var(--w);color:var(--k);box-shadow:0 0 0 2px var(--k);font-size:11px;display:grid;place-items:center;z-index:1}
+.owner{align-self:center;background:var(--y);padding:2px 8px;margin-top:auto;text-align:center;font-family:var(--f9);font-size:12px}
+.dock{flex:none;display:grid;grid-template-columns:repeat(4,1fr);padding:12px 8px 8px;background:var(--w);border-top:3px solid var(--k)}
+.dock .lb{background:transparent}
+.cells{display:flex;gap:4px;margin-top:8px}
 /* lists */
 .li{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:2px solid var(--k);width:100%;text-align:left;background:var(--y)}
 .li.w{background:var(--w)}
@@ -116,16 +125,20 @@ small,.sm{font-family:var(--f9);font-size:11px;line-height:1.6}
 .sheet{position:absolute;inset:auto 0 0;background:var(--w);border-top:3px solid var(--k);padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));z-index:20;transform:translateY(110%);transition:transform .2s steps(4)}
 .sheet.on{transform:none}
 .hintbtn{position:absolute;right:14px;bottom:calc(36px + env(safe-area-inset-bottom,0px));z-index:15;width:44px;height:44px;border:2px solid var(--k);background:var(--w);font-weight:700;font-size:18px;box-shadow:3px 3px 0 var(--k)}
-.toast{position:absolute;left:14px;right:14px;top:calc(env(safe-area-inset-top,0px) + 40px);z-index:30;background:var(--k);color:var(--y);border:2px solid var(--y);padding:12px 14px;display:flex;gap:10px;align-items:center;transform:translateY(calc(-100% - 80px));transition:transform .2s steps(4)}
+.toast{position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top,0px) + 6px);z-index:30;background:var(--w);color:var(--k);border:3px solid var(--k);box-shadow:5px 5px 0 var(--k);padding:12px 14px;display:flex;gap:12px;align-items:center;transform:translateY(calc(-100% - 60px));transition:transform .25s steps(5);cursor:pointer}
+.toast .ti{width:40px;height:40px;flex:none;display:grid;place-items:center;background:var(--k);color:var(--y)}
+.toast .tb{flex:1;min-width:0}
+.toast .tb .r1{display:flex;justify-content:space-between;font-family:var(--f9);font-size:11px}
 .toast.on{transform:none}
-.toast small{display:block;color:var(--w)}
+.toast b{display:block;font-size:15px;margin-top:2px}
+.toast small{display:block}
 .blink{animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.blink,.eq i{animation:none}.sheet,.toast{transition:none}}
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="sb"><span id="clock">23:41</span><span>HIVE OS</span><span class="ic" id="sbic"></span></div>
+  <div class="sb"><span id="clock">23:41</span><span class="isl" id="isl"></span><span class="ic" id="sbic"></span></div>
   <div id="view"></div>
   <div class="homebar"><i></i></div>
   <button class="hintbtn" id="hintbtn" aria-label="힌트" hidden>?</button>
@@ -138,7 +151,7 @@ small,.sm{font-family:var(--f9);font-size:11px;line-height:1.6}
 const Y='#F5FF00',K='#000000',WH='#FFFFFF';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 /* ── 픽셀 아이콘 16×16 (HIVE OS 원본) ── */
-const IC={msg:"00000ff0300c400280019999999980014002300c13f014002800300000000000",camera:"0000000007e0381c400243ca44224812499249924812442243c23ffc00000000",album:"00000ffe08023ffa200a200a244a200a238a200a200e20083ff8000000000000",pin:"000007e0081013c81428142813c80810081004200240018000003ffc00000000",lock:"000007e0081013c8142814283ffc2004218423c42184218420043ffc00000000",hive:"000007e0081013c8242448129009900990094812242413c8081007e000000000",back:"00000000020006000e001ff83ff81ff80e000600020000000000000000000000",check:"000000000006000e001c303838701ce00fc00780030000000000000000000000",signal:"000000000000000000000000000600060036003601b601b60db60db600000000",battery:"000000000000000000007ff840085fec5fec5fec40087ff80000000000000000",note:"000007f807f8040804080408040804083c787cf87cf838700000000000000000",H:"000000001c381c381c381c381c381ff81ff81c381c381c381c381c3800000000",star:"00000180018003c003c07ffe3ffc1ff80ff00ff01e781c38300c200400000000",moon:"000007c01e003c0078007000f000f000f000f004780c7c383ff01fc000000000",paw:"00000c301e781e780c306006f00ff18f67e60ff01ff81ff80ff0066000000000",wing:"0000003c00fc03fc07dc0fbc1e781cf039e033c027800f001c00300000000000"};
+const IC={gear:"0000018019981ff80ff01c38781e781e1c380ff01ff819980180000000000000",msg:"00000ff0300c400280019999999980014002300c13f014002800300000000000",camera:"0000000007e0381c400243ca44224812499249924812442243c23ffc00000000",album:"00000ffe08023ffa200a200a244a200a238a200a200e20083ff8000000000000",pin:"000007e0081013c81428142813c80810081004200240018000003ffc00000000",lock:"000007e0081013c8142814283ffc2004218423c42184218420043ffc00000000",hive:"000007e0081013c8242448129009900990094812242413c8081007e000000000",back:"00000000020006000e001ff83ff81ff80e000600020000000000000000000000",check:"000000000006000e001c303838701ce00fc00780030000000000000000000000",signal:"000000000000000000000000000600060036003601b601b60db60db600000000",battery:"000000000000000000007ff840085fec5fec5fec40087ff80000000000000000",note:"000007f807f8040804080408040804083c787cf87cf838700000000000000000",H:"000000001c381c381c381c381c381ff81ff81c381c381c381c381c3800000000",star:"00000180018003c003c07ffe3ffc1ff80ff00ff01e781c38300c200400000000",moon:"000007c01e003c0078007000f000f000f000f004780c7c383ff01fc000000000",paw:"00000c301e781e780c306006f00ff18f67e60ff01ff81ff80ff0066000000000",wing:"0000003c00fc03fc07dc0fbc1e781cf039e033c027800f001c00300000000000"};
 function ipath(n){const h=IC[n];let d='';for(let y=0;y<16;y++){const b=parseInt(h.substr(y*4,4),16).toString(2).padStart(16,'0');let c=0;while(c<16){if(b[c]==='1'){const s=c;while(c<16&&b[c]==='1')c++;d+=`M${s} ${y}h${c-s}v1h${s-c}z`;}else c++;}}return d;}
 const icon=(n,px=24,col='currentColor')=>`<svg width="${px}" height="${px}" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path d="${ipath(n)}" fill="${col}"/></svg>`;
 function hexRows(w,h,P,inset){const rows=Math.floor(h/P),o={};for(let r=0;r<rows;r++){const yc=(r+.5)*P,t=Math.abs(yc-h/2)/(h/2);const half=w/2-Math.round(((w*.22)*t)/P)*P-inset;const y0=r*P;if(y0<inset||y0+P>h-inset)continue;o[r]=[w/2-half,half*2];}return o;}
@@ -171,9 +184,11 @@ const clues=()=>[S.ticket,S.wv,S.music,S.invite].filter(Boolean).length;
 let AC=null;function tone(f=660,d=.06,v=.03){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d);}catch(e){}}
 const SFX={tap:()=>tone(880,.03,.02),ok:()=>{tone(660,.06);setTimeout(()=>tone(990,.08),70)},no:()=>tone(160,.12,.04),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.1),i*90))};
 /* ── 토스트 · 시계 ── */
-let tt=0;function toast(t,s,ic='check'){const el=$('#toast');el.innerHTML=`${icon(ic,24)}<div><b>${t}</b><small>${s||''}</small></div>`;el.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('on'),2600);}
+let tt=0;function toast(t,s,ic='check',extra='',ms=2800){const el=$('#toast');el.innerHTML=`<span class="ti">${icon(ic,24)}</span><span class="tb"><span class="r1"><span>HIVE OS</span><span>지금</span></span><b>${t}</b><small>${s||''}</small>${extra}</span>`;el.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('on'),ms);el.onclick=()=>el.classList.remove('on');}
+const PROG=['앱을 하나씩 열어 H의 흔적을 따라가세요.','처음 간 공연을 찾았다. 누가 H를 알아볼까?','H는 하이브의 팬이었다. H가 아끼던 노래는?','네 곡의 첫 글자. 잠긴 초대장을 열어 봐요.','초대장을 열었다. H를 만나러 가요.'];
+function progNoti(){const n=clues();setTimeout(()=>toast(`실종자 H 찾기 ${n} / 4`,PROG[n],'H',`<span class="cells">${[0,1,2,3].map(i=>hex(i<n,22)).join('')}</span>`,4200),2900);}
 function clock(){const d=new Date();$('#clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
-clock();setInterval(clock,15000);$('#sbic').innerHTML=icon('signal',16)+icon('battery',16);
+clock();setInterval(clock,15000);$('#sbic').innerHTML=icon('signal',16)+'<span>HIVE</span>'+icon('battery',18);
 /* ── 데이터 ── */
 const FRIENDS={
  sora:{n:'소라',fan:'ARMY',msgs:[['d','10월 31일'],['f','H야 요즘 왜 이렇게 연락이 없어'],['f','그 겨울 고척 기억나? 너 그날 내내 울었잖아 ㅋㅋ'],['me','처음이었으니까. 티켓 아직 앨범에 있어'],['f','너 플리 틀 때 늘 선배 팀부터 틀었잖아.\n순서 바뀌면 화내고 ㅋㅋ'],['d','11월 2일'],['f','돌아오면 연락해. 기다릴게']]},
@@ -203,15 +218,22 @@ SCREENS.lock=()=>({cls:'lock dots',nohint:true,html:`<div class="date" id="ld"><
   const fin=()=>{ty.textContent=LINES;$('#nt',el).hidden=false;$('#sl',el).hidden=false;};
   if(S.intro){fin();}else{let n=0;const t=setInterval(()=>{n++;ty.textContent=LINES.slice(0,n);if(n%3===0)tone(1200,.01,.01);if(n>=LINES.length){clearInterval(t);setTimeout(()=>{fin();SFX.ok();},300);}},45);ty.onclick=()=>{clearInterval(t);fin();};this.leave=()=>clearInterval(t);}
   const sl=$('#sl',el),kb=$('.knob',sl);let sx=null,x=0;const max=()=>sl.clientWidth-52;
-  const done=()=>{S.intro=true;save();SFX.ok();go('home',null,false);};
+  const done=()=>{S.intro=true;save();SFX.ok();go('home',null,false);setTimeout(()=>toast('실종자 H 찾기 0 / 4',PROG[0],'H',`<span class="cells">${[0,1,2,3].map(i=>hex(false,22)).join('')}</span>`,4200),500);};
   sl.addEventListener('pointerdown',e=>{sx=e.clientX;sl.setPointerCapture(e.pointerId);});
   sl.addEventListener('pointermove',e=>{if(sx===null)return;x=Math.max(0,Math.min(max(),e.clientX-sx));kb.style.left=4+x+'px';});
   sl.addEventListener('pointerup',()=>{if(x>max()*.7||x<6){done();}else{kb.style.left='4px';}sx=null;x=0;});}});
 SCREENS.home=()=>{const unread=Object.keys(FRIENDS).filter(k=>!S.read[k]).length+(S.invite?0:1);const n=clues();
- const app=(id,ic,lb,badge,locked)=>`<button class="app ${locked?'locked':''}" data-act="${locked?'lockedapp':'open:'+id}">${badge?`<span class="badge">${badge}</span>`:''}<span class="ico">${icon(ic,36)}</span><span class="lb">${lb}</span></button>`;
- return{cls:'dots',html:`<div class="scroll home"><div class="grid">${app('msgs','msg','메시지',unread||'')}${app('album','album','앨범')}${app('weverse','hive','위버스',S.wv?'':'!')}${app('music','note','음악')}${app('camera','camera','카메라','',!S.invite)}</div>
- <div class="widget"><div class="row"><b>실종자 H 찾기</b><small>${n} / 4</small></div><div class="cells">${[0,1,2,3].map(i=>hex(i<n)).join('')}</div><small class="mt" style="display:block">${['앱을 하나씩 열어 H의 흔적을 따라가세요.','처음 간 공연을 찾았다. 누가 H를 알아볼까?','H는 하이브의 팬이었다. H가 아끼던 노래는?','네 곡의 첫 글자. 잠긴 초대장을 열어 봐요.','초대장을 열었다. H를 만나러 가요.'][n]}</small></div>
- ${S.done?`<button class="btn k full mt2" data-act="open:poster">${icon('check',18)} 내 MISSING H 포스터</button>`:''}</div>`};};
+ const app=(act,ic,lb,badge,locked)=>`<button class="app ${locked?'locked':''}" data-act="${act}">${badge?`<span class="badge">${badge}</span>`:''}<span class="ico">${icon(ic,36)}</span><span class="lb">${lb}</span></button>`;
+ const slots='SELF'.split('').map((c,i)=>`<span class="slot ${i<n?'f':''}">${i<n?'✓':''}</span>`).join('');
+ return{cls:'dots',nohint:true,html:`<div class="home"><button class="wid" data-act="${S.done?'open:poster':'hint'}">${icon('H',44)}<span><small style="color:#fff">MISSING PERSON · 11.02</small><div class="t14">실종자 H</div><span class="slots">${slots}</span></span></button>
+ <div class="grid">${app('open:album','album','앨범')}${app('open:music','note','음악')}${app('open:map','pin','지도')}${app('open:settings','gear','설정')}</div>
+ <div class="owner">H의 폰 · 마지막 접속 11.02 23:38</div></div>
+ <div class="dock">${app('open:msgs','msg','메시지',unread||'')}${app('call','signal','전화')}${app(S.invite?'open:camera':'lockedapp','camera','카메라','',!S.invite)}${app('open:weverse','hive','위버스',S.wv?'':'!')}</div>`};};
+ACT.hint=()=>openSheet();
+ACT.call=()=>{SFX.no();toast('H에게 거는 중…','연결할 수 없습니다. 전원이 꺼져 있어요.','signal');};
+SCREENS.map=()=>({html:`${head('지도','pin')}<div class="scroll"><canvas id="mp" width="64" height="80" class="pxc" style="width:100%;height:44dvh;object-fit:cover;border-bottom:2px solid #000"></canvas><div class="post"><div class="h">${icon('pin',22)} 마지막 위치</div><p>용산역 2번 출구 · 11.02 23:38</p><small>이 폰이 발견된 곳이에요.</small></div></div>`,
+ mount(el){const c=$('#mp',el),g=c.getContext('2d');const p=P(g);p.r(0,0,64,80,Y);for(let x=0;x<64;x+=8)p.r(x,0,1,80,'#C8CC00');for(let y=0;y<80;y+=8)p.r(0,y,64,1,'#C8CC00');p.r(0,34,64,6,WH);p.r(26,0,6,80,WH);p.r(10,10,12,16,K);p.r(38,48,18,22,K);p.r(40,12,16,14,K);p.r(6,50,14,18,K);p.circ(29,37,5,K);p.circ(29,37,2,Y);p.r(28,42,3,5,K);p.text('YONGSAN',2,74,K);}});
+SCREENS.settings=()=>({html:`${head('설정','gear')}<div class="scroll"><button class="li w" data-act="hint"><span class="av">?</span><span class="tx"><span class="nm">힌트 보기</span><span class="ms">지금 단계의 힌트</span></span></button><div class="li w"><span class="av">${icon('H',22)}</span><span class="tx"><span class="nm">기기 이름</span><span class="ms">H의 폰</span></span></div><button class="li w" data-act="reset"><span class="av">↺</span><span class="tx"><span class="nm">처음부터 다시</span><span class="ms">진행 상황을 지워요</span></span></button><small style="display:block;padding:14px">FINDING H · HYBE 캠페인 학생 콘셉트 프로토타입 (비공식)</small></div>`});
 ACT.lockedapp=()=>{SFX.no();toast('아직 열 수 없어요','초대장을 먼저 열어 보세요','lock');};
 SCREENS.msgs=()=>({html:`${head('메시지','msg')}<div class="scroll">
  <button class="li kk" data-act="open:invite"><span class="av">${icon(S.invite?'check':'lock',22,K)}</span><span class="tx"><span class="nm"><span>HYBE</span><small>11.02</small></span><span class="ms">${S.invite?'초대장 · WEVERSE CON 2026':'초대장이 도착했습니다 · 비밀번호 필요'}</span></span></button>
@@ -220,7 +242,7 @@ SCREENS.chat=k=>{const f=FRIENDS[k];S.read[k]=true;save();return{html:`${head(f.
 SCREENS.invite=()=>{if(S.invite)return SCREENS.invited();return{html:`${head('HYBE','lock')}<div class="scroll"><div class="chat"><span class="stamp-day">11월 2일</span>
  <div class="invite" id="iv">${icon('lock',40)}<div class="big mt">초대장이 도착했습니다</div><small style="display:block;margin-top:6px">이 초대장은 H 본인만 열 수 있습니다.<br>비밀번호를 입력하세요 (영문 4자리)</small>
  <form class="pw" id="pf"><input id="pi" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text" aria-label="비밀번호"><button class="btn k" type="submit">열기</button></form><div class="err" id="pe"></div></div></div></div>`,
- mount(el){$('#pf',el).addEventListener('submit',e=>{e.preventDefault();const v=$('#pi',el).value.trim().toUpperCase();if(v==='SELF'){S.invite=true;save();SFX.win();toast('초대장이 열렸어요','H가 당신을 기다립니다','check');go('invited',null,false);}else{SFX.no();const iv=$('#iv',el);iv.classList.remove('shake');void iv.offsetWidth;iv.classList.add('shake');$('#pe',el).textContent='비밀번호가 틀렸습니다.';}});}};};
+ mount(el){$('#pf',el).addEventListener('submit',e=>{e.preventDefault();const v=$('#pi',el).value.trim().toUpperCase();if(v==='SELF'){S.invite=true;save();SFX.win();toast('초대장이 열렸어요','H가 당신을 기다립니다','check');progNoti();go('invited',null,false);}else{SFX.no();const iv=$('#iv',el);iv.classList.remove('shake');void iv.offsetWidth;iv.classList.add('shake');$('#pe',el).textContent='비밀번호가 틀렸습니다.';}});}};};
 SCREENS.invited=()=>({html:`${head('HYBE · 초대장','check')}<div class="scroll"><div class="chat"><span class="stamp-day">11월 2일</span>
  <div class="invite"><canvas id="ip" width="120" height="170" class="pxc" style="height:auto;aspect-ratio:120/170;border:3px solid #000"></canvas>
  <div class="big mt">HYBE WEVERSE CON 2026</div><div class="t14" style="font-size:22px">FINDING H</div>
@@ -233,19 +255,19 @@ SCREENS.invited=()=>({html:`${head('HYBE · 초대장','check')}<div class="scro
 ACT.accept=()=>{SFX.ok();go('camera',null,false);};
 SCREENS.album=()=>({html:`${head('앨범','album')}<div class="scroll"><div class="gal">${PHOTOS.map((p,i)=>`<button data-act="photo:${i}" aria-label="${p[2]}"><canvas width="64" height="48" data-sc="${p[0]}" style="object-fit:cover"></canvas></button>`).join('')}</div><small style="display:block;padding:12px 14px">사진 ${PHOTOS.length}장 · H의 얼굴은 어디에도 보이지 않는다</small></div>`,
  mount(el){$$('canvas[data-sc]',el).forEach(c=>paint(c,c.dataset.sc));}});
-SCREENS.photo=i=>{const p=PHOTOS[i];if(p[0]==='ticket'&&!S.ticket){S.ticket=true;save();setTimeout(()=>toast('단서 발견','H가 처음 간 공연 · 2017.02.18','album'),300);}
+SCREENS.photo=i=>{const p=PHOTOS[i];if(p[0]==='ticket'&&!S.ticket){S.ticket=true;save();setTimeout(()=>toast('단서 발견','H가 처음 간 공연 · 2017.02.18','album'),300);progNoti();}
  return{html:`${head(p[2],'album')}<div class="scroll view"><canvas width="64" height="48" id="pv"></canvas><div class="big mt">${p[2]}</div><small>${p[1]}${p[0]==='bench'?' · 용산역 2번 출구':''}</small></div>`,mount(el){paint($('#pv',el),p[0]);}};};
 SCREENS.weverse=()=>{if(!S.wv)return{html:`${head('위버스','hive')}<div class="scroll"><div class="post"><div class="h">${icon('lock',24)} H의 프로필은 잠겨 있어요</div><p>본인 확인 질문에 답하면 열려요.</p>
  <div class="big mt" style="font-size:18px">Q. H가 처음 간 공연 날짜는?</div><small>숫자 8자리 · 예) 20260101</small>
  <form class="pw" id="wf"><input id="wi" maxlength="8" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="날짜 8자리"><button class="btn k" type="submit">확인</button></form><div class="err" id="we"></div></div></div>`,
- mount(el){$('#wf',el).addEventListener('submit',e=>{e.preventDefault();const v=$('#wi',el).value.replace(/\D/g,'');if(v==='20170218'){S.wv=true;save();SFX.win();toast('본인 확인 완료','H는 하이브의 팬이었다','hive');go('weverse',null,false);}else{SFX.no();$('#we',el).textContent='본인 확인에 실패했어요.';}});}};
+ mount(el){$('#wf',el).addEventListener('submit',e=>{e.preventDefault();const v=$('#wi',el).value.replace(/\D/g,'');if(v==='20170218'){S.wv=true;save();SFX.win();toast('본인 확인 완료','H는 하이브의 팬이었다','hive');progNoti();go('weverse',null,false);}else{SFX.no();$('#we',el).textContent='본인 확인에 실패했어요.';}});}};
  return{html:`${head('위버스 · H','hive')}<div class="scroll"><div class="post"><div class="h">${icon('H',28)} H</div><p>가입한 커뮤니티 ${COMM.length}개 · 마지막 활동 11.02</p></div>
  <div class="comm">${COMM.map(c=>`<button data-act="comm:${c.id}">${icon(c.ic,28,Y)}<span><b>${c.n}</b><small style="display:block;color:#fff">SINCE ${c.since}</small></span></button>`).join('')}</div></div>`};};
 SCREENS.comm=id=>{const c=COMM.find(x=>x.id===id);return{html:`${head(c.n+' · 커뮤니티','hive')}<div class="scroll">
  <div class="post"><div class="h">${icon('H',24)} H <small>· 11.01</small></div><p>${c.post}</p></div>
  <div class="post"><div class="h">${icon('check',20)} 함께하는 친구</div><p>${c.friend}님도 이 커뮤니티 멤버예요.</p></div>
  <small style="display:block;padding:0 14px">SINCE ${c.since}</small></div>`};};
-SCREENS.music=()=>{if(S.wv&&!S.music){S.music=true;save();}return{html:`${head('음악 · H의 플레이리스트','note')}<div class="scroll">
+SCREENS.music=()=>{if(S.wv&&!S.music){S.music=true;save();progNoti();}return{html:`${head('음악 · H의 플레이리스트','note')}<div class="scroll">
  ${TRACKS.map((t,i)=>`<button class="track" data-act="play"><span class="no">${String(i+1).padStart(2,'0')}</span><span class="tt"><b>${t[0]}</b><small>${t[1]}</small></span><span class="st"></span></button>`).join('')}
  <small style="display:block;padding:12px 14px">${TRACKS.length}곡 · 셔플 재생 중</small></div>`};};
 /* ── 셀카 카메라 (픽셀 3톤) ── */
@@ -262,12 +284,12 @@ SCREENS.camera=()=>{let stream=null,raf=0,video=null,still=null;const CW=72,CH=9
   const line='실종자 H, 찾았습니다.';let n=0;const ti=setInterval(()=>{n++;cap.textContent=line.slice(0,n);if(n>=line.length)clearInterval(ti);},90);
   const fallback=()=>{const p=P(g);p.r(0,0,CW,CH,Y);p.dith(0,0,CW,30,Y,WH);p.circ(36,40,16,WH);p.dith(20,24,33,34,WH,K);p.r(28,38,5,3,K);p.r(40,38,5,3,K);p.r(31,48,10,2,K);for(let y=58;y<CH;y++){const w=Math.min(34,12+(y-58));p.r(36-w,y,w*2,1,K);}};
   const frame=()=>{const src=still||(video&&video.readyState>=2?video:null);if(src&&cover(src,g,CW,CH,!still)){g.putImageData(dither(g.getImageData(0,0,CW,CH)),0,0);}if(!still)raf=requestAnimationFrame(frame);};
-  try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:480},height:{ideal:640}},audio:false});video=document.createElement('video');video.playsInline=true;video.muted=true;video.srcObject=stream;await video.play();frame();}
+  try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:480},height:{ideal:640}},audio:false});video=document.createElement('video');video.playsInline=true;video.muted=true;video.srcObject=stream;await video.play();$('#isl').classList.add('rec');frame();}
   catch(e){fallback();toast('카메라를 열 수 없어요','사진을 고르거나, 카메라 없이 계속할 수 있어요','camera');}
   $('#fi',el).addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const im=new Image();im.onload=()=>{still=im;cancelAnimationFrame(raf);frame();};im.src=URL.createObjectURL(f);});
   $('#nc',el).addEventListener('click',()=>{cancelAnimationFrame(raf);still={width:1};fallback();});
   $('#sh',el).addEventListener('click',()=>{SFX.win();const c=document.createElement('canvas');c.width=CW;c.height=CH;c.getContext('2d').drawImage(cv,0,0);SHOT.c=c;S.done=true;save();go('ending',null,false);});
-  this.leave=()=>{clearInterval(ti);cancelAnimationFrame(raf);if(stream)stream.getTracks().forEach(t=>t.stop());};}};};
+  this.leave=()=>{clearInterval(ti);cancelAnimationFrame(raf);$('#isl').classList.remove('rec');if(stream)stream.getTracks().forEach(t=>t.stop());};}};};
 SCREENS.ending=()=>({nohint:true,cls:'dots',html:`<div class="scroll" style="padding:20px"><div class="invite"><div class="t14" style="font-size:30px">YOU ARE H.</div>
  <p style="line-height:1.8;margin:12px 0 0">H는 HYBE의 H.<br>하이브를 하이브로 만드는 건,<br>처음부터 당신이었습니다.</p>
  <p style="line-height:1.8;margin:12px 0 0">소라, 도하, 유나, 미오도<br>각자의 포스터를 들고 올 거예요.</p>
