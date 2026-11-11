@@ -54,7 +54,9 @@ small,.sm{font-family:var(--f9);font-size:11px;line-height:1.6}
 /* home */
 .home{flex:1;min-height:0;display:flex;flex-direction:column;padding:14px 16px 10px}
 .wid{display:flex;gap:16px;align-items:center;background:var(--k);color:var(--y);padding:18px 18px;text-align:left;width:100%;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)}
-.wid .t14{font-size:26px;line-height:1.2}
+.wid .t14{font-size:44px;line-height:1}
+.wid .wt{display:flex;flex-direction:column;gap:6px;flex:1}.wid .wt small{color:var(--w)}
+.wid .wr{display:flex;flex-direction:column;gap:4px;text-align:right;font-size:12px}.wid .wr small{color:var(--w)}.wid .wr b{font-size:14px}
 .slots{display:flex;gap:4px;margin-top:8px}
 .slot{width:26px;height:26px;box-shadow:inset 0 0 0 3px var(--y);display:grid;place-items:center;font-size:14px;font-weight:700}
 .slot.f{background:var(--y);color:var(--k)}
@@ -130,6 +132,12 @@ small,.sm{font-family:var(--f9);font-size:11px;line-height:1.6}
 .toast .tb{flex:1;min-width:0}
 .toast .tb .r1{display:flex;justify-content:space-between;font-family:var(--f9);font-size:11px}
 .toast.on{transform:none}
+.toast.k{background:var(--k);color:var(--y);border-color:var(--k);box-shadow:5px 5px 0 var(--y),5px 5px 0 3px var(--k);clip-path:none}
+.toast.k .ti{background:none;color:var(--y);width:44px}
+.toast.k .r1{color:var(--w)}
+.toast.k b{font-family:var(--f14);font-size:20px;font-weight:400}
+.toast.k small{color:var(--w)}
+.toast .slots{margin-top:8px}.toast .slot{width:22px;height:22px;font-size:12px}
 .toast b{display:block;font-size:15px;margin-top:2px}
 .toast small{display:block}
 .blink{animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
@@ -151,7 +159,7 @@ small,.sm{font-family:var(--f9);font-size:11px;line-height:1.6}
 const Y='#F5FF00',K='#000000',WH='#FFFFFF';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 /* ── 픽셀 아이콘 16×16 (HIVE OS 원본) ── */
-const IC={gear:"0000018019981ff80ff01c38781e781e1c380ff01ff819980180000000000000",msg:"00000ff0300c400280019999999980014002300c13f014002800300000000000",camera:"0000000007e0381c400243ca44224812499249924812442243c23ffc00000000",album:"00000ffe08023ffa200a200a244a200a238a200a200e20083ff8000000000000",pin:"000007e0081013c81428142813c80810081004200240018000003ffc00000000",lock:"000007e0081013c8142814283ffc2004218423c42184218420043ffc00000000",hive:"000007e0081013c8242448129009900990094812242413c8081007e000000000",back:"00000000020006000e001ff83ff81ff80e000600020000000000000000000000",check:"000000000006000e001c303838701ce00fc00780030000000000000000000000",signal:"000000000000000000000000000600060036003601b601b60db60db600000000",battery:"000000000000000000007ff840085fec5fec5fec40087ff80000000000000000",note:"000007f807f8040804080408040804083c787cf87cf838700000000000000000",H:"000000001c381c381c381c381c381ff81ff81c381c381c381c381c3800000000",star:"00000180018003c003c07ffe3ffc1ff80ff00ff01e781c38300c200400000000",moon:"000007c01e003c0078007000f000f000f000f004780c7c383ff01fc000000000",paw:"00000c301e781e780c306006f00ff18f67e60ff01ff81ff80ff0066000000000",wing:"0000003c00fc03fc07dc0fbc1e781cf039e033c027800f001c00300000000000"};
+const IC={phone:"00007000f800f800f0007000780038003c001e000f1c07fe03ff01ff007e0000",gear:"0000018019981ff80ff01c38781e781e1c380ff01ff819980180000000000000",msg:"00000ff0300c400280019999999980014002300c13f014002800300000000000",camera:"0000000007e0381c400243ca44224812499249924812442243c23ffc00000000",album:"00000ffe08023ffa200a200a244a200a238a200a200e20083ff8000000000000",pin:"000007e0081013c81428142813c80810081004200240018000003ffc00000000",lock:"000007e0081013c8142814283ffc2004218423c42184218420043ffc00000000",hive:"000007e0081013c8242448129009900990094812242413c8081007e000000000",back:"00000000020006000e001ff83ff81ff80e000600020000000000000000000000",check:"000000000006000e001c303838701ce00fc00780030000000000000000000000",signal:"000000000000000000000000000600060036003601b601b60db60db600000000",battery:"000000000000000000007ff840085fec5fec5fec40087ff80000000000000000",note:"000007f807f8040804080408040804083c787cf87cf838700000000000000000",H:"000000001c381c381c381c381c381ff81ff81c381c381c381c381c3800000000",star:"00000180018003c003c07ffe3ffc1ff80ff00ff01e781c38300c200400000000",moon:"000007c01e003c0078007000f000f000f000f004780c7c383ff01fc000000000",paw:"00000c301e781e780c306006f00ff18f67e60ff01ff81ff80ff0066000000000",wing:"0000003c00fc03fc07dc0fbc1e781cf039e033c027800f001c00300000000000"};
 function ipath(n){const h=IC[n];let d='';for(let y=0;y<16;y++){const b=parseInt(h.substr(y*4,4),16).toString(2).padStart(16,'0');let c=0;while(c<16){if(b[c]==='1'){const s=c;while(c<16&&b[c]==='1')c++;d+=`M${s} ${y}h${c-s}v1h${s-c}z`;}else c++;}}return d;}
 const icon=(n,px=24,col='currentColor')=>`<svg width="${px}" height="${px}" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path d="${ipath(n)}" fill="${col}"/></svg>`;
 function hexRows(w,h,P,inset){const rows=Math.floor(h/P),o={};for(let r=0;r<rows;r++){const yc=(r+.5)*P,t=Math.abs(yc-h/2)/(h/2);const half=w/2-Math.round(((w*.22)*t)/P)*P-inset;const y0=r*P;if(y0<inset||y0+P>h-inset)continue;o[r]=[w/2-half,half*2];}return o;}
@@ -184,10 +192,11 @@ const clues=()=>[S.ticket,S.wv,S.music,S.invite].filter(Boolean).length;
 let AC=null;function tone(f=660,d=.06,v=.03){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d);}catch(e){}}
 const SFX={tap:()=>tone(880,.03,.02),ok:()=>{tone(660,.06);setTimeout(()=>tone(990,.08),70)},no:()=>tone(160,.12,.04),win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.1),i*90))};
 /* ── 토스트 · 시계 ── */
-let tt=0;function toast(t,s,ic='check',extra='',ms=2800){const el=$('#toast');el.innerHTML=`<span class="ti">${icon(ic,24)}</span><span class="tb"><span class="r1"><span>HIVE OS</span><span>지금</span></span><b>${t}</b><small>${s||''}</small>${extra}</span>`;el.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('on'),ms);el.onclick=()=>el.classList.remove('on');}
+let tt=0;function toast(t,s,ic='check',extra='',ms=2800,k=false){const el=$('#toast');el.classList.toggle('k',k);el.innerHTML=`<span class="ti">${icon(ic,24)}</span><span class="tb"><span class="r1"><span>HIVE OS</span><span>지금</span></span><b>${t}</b><small>${s||''}</small>${extra}</span>`;el.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('on'),ms);el.onclick=()=>el.classList.remove('on');}
 const PROG=['앱을 하나씩 열어 H의 흔적을 따라가세요.','처음 간 공연을 찾았다. 누가 H를 알아볼까?','H는 하이브의 팬이었다. H가 아끼던 노래는?','네 곡의 첫 글자. 잠긴 초대장을 열어 봐요.','초대장을 열었다. H를 만나러 가요.'];
-function progNoti(){const n=clues();setTimeout(()=>toast(`실종자 H 찾기 ${n} / 4`,PROG[n],'H',`<span class="cells">${[0,1,2,3].map(i=>hex(i<n,22)).join('')}</span>`,4200),2900);}
-function clock(){const d=new Date();$('#clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function hNoti(n){toast('실종자 H 찾기',PROG[n],'H',`<span class="slots">${'SELF'.split('').map((c,i)=>`<span class="slot ${i<n?'f':''}">${i<n?'✓':''}</span>`).join('')}</span>`,4200,true);}
+function progNoti(){const n=clues();setTimeout(()=>hNoti(n),2900);}
+function clock(){const d=new Date(),t=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');$('#clock').textContent=t;const w=document.getElementById('wt');if(w){w.textContent=t;document.getElementById('wd').textContent=`${d.getMonth()+1}월 ${d.getDate()}일 ${'일월화수목금토'[d.getDay()]}요일`;}}
 clock();setInterval(clock,15000);$('#sbic').innerHTML=icon('signal',16)+'<span>HIVE</span>'+icon('battery',18);
 /* ── 데이터 ── */
 const FRIENDS={
@@ -218,19 +227,19 @@ SCREENS.lock=()=>({cls:'lock dots',nohint:true,html:`<div class="date" id="ld"><
   const fin=()=>{ty.textContent=LINES;$('#nt',el).hidden=false;$('#sl',el).hidden=false;};
   if(S.intro){fin();}else{let n=0;const t=setInterval(()=>{n++;ty.textContent=LINES.slice(0,n);if(n%3===0)tone(1200,.01,.01);if(n>=LINES.length){clearInterval(t);setTimeout(()=>{fin();SFX.ok();},300);}},45);ty.onclick=()=>{clearInterval(t);fin();};this.leave=()=>clearInterval(t);}
   const sl=$('#sl',el),kb=$('.knob',sl);let sx=null,x=0;const max=()=>sl.clientWidth-52;
-  const done=()=>{S.intro=true;save();SFX.ok();go('home',null,false);setTimeout(()=>toast('실종자 H 찾기 0 / 4',PROG[0],'H',`<span class="cells">${[0,1,2,3].map(i=>hex(false,22)).join('')}</span>`,4200),500);};
+  const done=()=>{S.intro=true;save();SFX.ok();go('home',null,false);setTimeout(()=>hNoti(0),500);};
   sl.addEventListener('pointerdown',e=>{sx=e.clientX;sl.setPointerCapture(e.pointerId);});
   sl.addEventListener('pointermove',e=>{if(sx===null)return;x=Math.max(0,Math.min(max(),e.clientX-sx));kb.style.left=4+x+'px';});
   sl.addEventListener('pointerup',()=>{if(x>max()*.7||x<6){done();}else{kb.style.left='4px';}sx=null;x=0;});}});
 SCREENS.home=()=>{const unread=Object.keys(FRIENDS).filter(k=>!S.read[k]).length+(S.invite?0:1);const n=clues();
  const app=(act,ic,lb,badge,locked)=>`<button class="app ${locked?'locked':''}" data-act="${act}">${badge?`<span class="badge">${badge}</span>`:''}<span class="ico">${icon(ic,36)}</span><span class="lb">${lb}</span></button>`;
  const slots='SELF'.split('').map((c,i)=>`<span class="slot ${i<n?'f':''}">${i<n?'✓':''}</span>`).join('');
- return{cls:'dots',nohint:true,html:`<div class="home"><button class="wid" data-act="${S.done?'open:poster':'hint'}">${icon('H',44)}<span><small style="color:#fff">MISSING PERSON · 11.02</small><div class="t14">실종자 H</div><span class="slots">${slots}</span></span></button>
+ return{cls:'dots',nohint:true,mount:()=>clock(),html:`<div class="home"><button class="wid" data-act="hint"><span class="wt"><span class="t14" id="wt">23:41</span><small id="wd"></small></span><span class="wr"><small>H의 폰</small><b>읽지 않은 메시지 ${unread}</b><small>단서 ${n} / 4</small></span></button>
  <div class="grid">${app('open:album','album','앨범')}${app('open:music','note','음악')}${app('open:map','pin','지도')}${app('open:settings','gear','설정')}</div>
  <div class="owner">H의 폰 · 마지막 접속 11.02 23:38</div></div>
- <div class="dock">${app('open:msgs','msg','메시지',unread||'')}${app('call','signal','전화')}${app(S.invite?'open:camera':'lockedapp','camera','카메라','',!S.invite)}${app('open:weverse','hive','위버스',S.wv?'':'!')}</div>`};};
+ <div class="dock">${app('open:msgs','msg','메시지',unread||'')}${app('call','phone','전화')}${app(S.invite?'open:camera':'lockedapp','camera','카메라','',!S.invite)}${app('open:weverse','hive','위버스',S.wv?'':'!')}</div>`};};
 ACT.hint=()=>openSheet();
-ACT.call=()=>{SFX.no();toast('H에게 거는 중…','연결할 수 없습니다. 전원이 꺼져 있어요.','signal');};
+ACT.call=()=>{SFX.no();toast('H에게 거는 중…','연결할 수 없습니다. 전원이 꺼져 있어요.','phone');};
 SCREENS.map=()=>({html:`${head('지도','pin')}<div class="scroll"><canvas id="mp" width="64" height="80" class="pxc" style="width:100%;height:44dvh;object-fit:cover;border-bottom:2px solid #000"></canvas><div class="post"><div class="h">${icon('pin',22)} 마지막 위치</div><p>용산역 2번 출구 · 11.02 23:38</p><small>이 폰이 발견된 곳이에요.</small></div></div>`,
  mount(el){const c=$('#mp',el),g=c.getContext('2d');const p=P(g);p.r(0,0,64,80,Y);for(let x=0;x<64;x+=8)p.r(x,0,1,80,'#C8CC00');for(let y=0;y<80;y+=8)p.r(0,y,64,1,'#C8CC00');p.r(0,34,64,6,WH);p.r(26,0,6,80,WH);p.r(10,10,12,16,K);p.r(38,48,18,22,K);p.r(40,12,16,14,K);p.r(6,50,14,18,K);p.circ(29,37,5,K);p.circ(29,37,2,Y);p.r(28,42,3,5,K);p.text('YONGSAN',2,74,K);}});
 SCREENS.settings=()=>({html:`${head('설정','gear')}<div class="scroll"><button class="li w" data-act="hint"><span class="av">?</span><span class="tx"><span class="nm">힌트 보기</span><span class="ms">지금 단계의 힌트</span></span></button><div class="li w"><span class="av">${icon('H',22)}</span><span class="tx"><span class="nm">기기 이름</span><span class="ms">H의 폰</span></span></div><button class="li w" data-act="reset"><span class="av">↺</span><span class="tx"><span class="nm">처음부터 다시</span><span class="ms">진행 상황을 지워요</span></span></button><small style="display:block;padding:14px">FINDING H · HYBE 캠페인 학생 콘셉트 프로토타입 (비공식)</small></div>`});
